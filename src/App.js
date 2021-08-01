@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import {Container} from '@material-ui/core';
+import NewRoom from './components/screens/NewRoom';
+import Video from './components/screens/Video';
 
 function App() {
+
+  //Screen state definition
+  const [view, setView] = useState({
+    user: '',
+    room:'',
+    currentScreen: 'default',
+  });
+
+  const handleSubmit = (user, room) => {
+    setView({
+      user,
+      room,
+      currentScreen:'Video'
+    });    
+  }
+
+  let screen;
+  if (view.currentScreen === 'default') {
+    screen = <NewRoom onSubmit={handleSubmit}></NewRoom>; //screen to see when first time opening the website
+  }
+  if (view.currentScreen === 'Video'){
+    screen = <Video room={view.room} username={view.user}></Video>; //screen to see if there is an invitation
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      {screen}
+    </Container>
   );
 }
 
