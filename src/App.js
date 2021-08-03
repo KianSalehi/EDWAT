@@ -6,13 +6,13 @@ import Video from './components/screens/Video';
 function App() {
 
   //Screen state definition
-  const [view, setView] = useState({
+  let [view, setView] = useState({
     user: '',
     room:'',
     currentScreen: 'default',
   });
 
-  const handleSubmit = (user, room) => {
+  let handleSubmit = (user, room) => {
     setView({
       user,
       room,
