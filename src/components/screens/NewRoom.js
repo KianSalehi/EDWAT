@@ -24,13 +24,13 @@ function NewRoom(props) {
       <div
         style={{
           position: "absolute",
-          backgroundColor: "white",
+          backgroundColor: "#white",
           borderRadius: "25px",
           top: "50%",
           left: "50%",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
-          padding: "5%",
+          padding: "4%",
         }}
       >
         <Grid
@@ -74,7 +74,7 @@ function NewRoom(props) {
                   ></TextField>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" type="submit">
                     Submit
                   </Button>
                 </Grid>
