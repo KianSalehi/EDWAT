@@ -4,11 +4,22 @@ import {ChatContainer, MessageList, Message, MessageInput, MainContainer} from "
 import { Grid, Paper, IconButton, InputBase} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 import {Search} from '@material-ui/icons';
+import BackgroundVideo from "./background/BackgroundVideo";
 
 function Video(props) {
   const inputRef = useRef();
+  const [linkID, setLinkID] = useState("xOQ2QaUuQ8U");
   const [inputMessage, setInputMessage]=useState("");
   const [messages, setMessages]=useState([]);
+
+  const handleNewLink=()=>{
+    let link = document.getElementById("query").value;
+    alert(link);
+    setLinkID(link);
+
+
+  }
+
   const handleSend=(message)=>{
     setMessages([...messages, {
       message,
@@ -19,11 +30,11 @@ function Video(props) {
     inputRef.current.focus();
 
   }
-  const embedID="xOQ2QaUuQ8U"
   const classes = useStyles();
 
   return (
-
+      <div>
+      <BackgroundVideo></BackgroundVideo>
     <Grid container direction="row" className={classes.mainBackground} >
     <Grid item>
       <Grid container direction="column">
@@ -31,7 +42,7 @@ function Video(props) {
           <iframe
           width="100%"
           height="100%"
-          src={'https:www.youtube.com/embed/'+embedID}
+          src={'https:www.youtube.com/embed/'+linkID}
           allowFullScreen
           allow="accelerometer; autoplay; clipboard-write; encrypter-mdia; gyroscope; picture-in-pricture">
           </iframe>
@@ -39,11 +50,12 @@ function Video(props) {
         <Grid item className={classes.searchBar}>
           <Paper component="form" className={classes.root}>
             <InputBase
+                id="query"
                 className={classes.input}
-                placeholder="Search Youtube"
-                inputProps={{ 'aria-label': 'search YouTube' }}
+                placeholder="Youtube Link ..."
+                inputProps={{ 'aria-label': 'Youtube Link ...' }}
             />
-            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+            <IconButton className={classes.iconButton} aria-label="search" onClick={handleNewLink}>
               <Search color="action"/>
             </IconButton>
           </Paper>
@@ -56,7 +68,7 @@ function Video(props) {
       right:"0",
       height:"100%",
       width:"20%",
-      backgroundColor:"#3d3d3d"
+      backgroundColor:"rgba(0, 0, 0, 0.6)"
     }}>
       <MainContainer>
       <ChatContainer>
@@ -77,6 +89,7 @@ function Video(props) {
     </div>
     </Grid>
     </Grid>
+      </div>
   )
 }
 
@@ -86,34 +99,35 @@ const useStyles = makeStyles({
     position:"absolute",
     bottom:0,
     left:0,
-    backgroundColor:"#3d3d3d",
+    backgroundColor:"rgba(0, 0, 0, 0.3)",
 
   },
   videoBox:{
     position:"absolute",
+    display:"flex",
     top:0,
     left:0,
     width:"80%",
-    height:"95%",
-    backgroundColor:"#3d3d3d",
+    height:"calc(100vh - 50px)",
+    backgroundColor:"rgba(0, 0, 0, 0.6)",
   },
   mainBackground:{
-    backgroundColor:"#3d3d3d",
+    backgroundColor:"rgba(0, 0, 0, 0.6)",
   },
   root: {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
     width: "79.5vw",
-    backgroundColor:"#3d3d3d",
+    backgroundColor:"rgba(0, 0, 0, 0.3)",
     border:"1px",
     borderColor:"white",
-    borderStyle:"solid"
+    borderStyle:"solid",
+    borderRadius:"10px"
   },
   input: {
     flex: 1,
     color:"white",
-
   },
   iconButton: {
     padding: 10,
