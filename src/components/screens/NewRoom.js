@@ -30,7 +30,8 @@ function NewRoom(props) {
       id= id + random.charAt(Math.floor(Math.random() * 30));
     }
     setRoomInfo({
-      room: id
+      room: id,
+      user: document.getElementById("user").value
     })
   }
 
