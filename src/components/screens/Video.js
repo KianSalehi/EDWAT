@@ -7,9 +7,10 @@ import {Search} from '@material-ui/icons';
 import BackgroundVideo from "./background/BackgroundVideo";
 import YouTube from 'react-youtube';
 let io = require('socket.io-client');
-const socketUrl = "/";
+//const socketUrl = "/"; // for deployment
+const socketUrl = "http://localhost:3000/"; //for development
 const { PLAY, PAUSE, SYNC_TIME, NEW_VIDEO, ASK_FOR_VIDEO_INFORMATION,
-  SYNC_VIDEO_INFORMATION, JOIN_ROOM,SEND_MESSAGE, RECEIVED_MESSAGE,
+  SYNC_VIDEO_INFORMATION, JOIN_ROOM, RECEIVED_MESSAGE,
   ASK_FOR_USERNAME, SEND_USERNAME }= require('../../constantVariables');
 
 function Video(props) {
@@ -175,6 +176,7 @@ function Video(props) {
                 className={classes.input}
                 placeholder="Youtube Link ..."
                 inputProps={{ 'aria-label': 'Youtube Link ...' }}
+                onSubmit={handleNewLink}
             />
             <IconButton className={classes.iconButton} aria-label="search" onClick={handleNewLink}>
               <Search color="action"/>

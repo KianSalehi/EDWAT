@@ -7,7 +7,9 @@ const server = require('http').Server(app);
 const io = module.exports.io = require('socket.io')(server);
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
-app.use(express.static(__dirname+'../../build'));
+const path = require('path');
+app.use(express.static(path.join(__dirname,'../../../build')));
+
 
 io.on('connection', socket=>{
     //in sends to all
@@ -44,6 +46,7 @@ io.on('connection', socket=>{
         socket.to(socket.room).emit(SYNC_VIDEO_INFORMATION);
     });
     socket.on(SEND_MESSAGE, (data)=>{
+        console.log(SEND_MESSAGE);
         socket.to(socket.room).emit(SEND_MESSAGE, data);
     });
     socket.on(SEND_USERNAME, (user)=>{
