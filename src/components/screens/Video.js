@@ -23,8 +23,7 @@ function Video(props) {
       rel:1,
       modestbranding:1,
       autoplay:0,
-      enablejsapi:1
-    }
+      enablejsapi:1}
   }
 
   //state variables
@@ -59,21 +58,22 @@ function Video(props) {
       syncTime(currentTime);
     });
     socket.on(NEW_VIDEO, (url)=>{
-      player.loadVideoByUrl({
-        mediaContentUrl:url,
-        startSeconds:0});
+      player.loadVideoById({
+        videoId: getVideoId(url)
+      });
       setLinkID('');
     });
     socket.on(ASK_FOR_VIDEO_INFORMATION, ()=>{
       const data = {
-        mediaContentUrl: player.getVideoUrl(),
+        videoUrl: player.getVideoUrl(),
         currentTime: player.getCurrentTime()
       }
       socket.emit(SYNC_VIDEO_INFORMATION, data);
     });
     socket.on(SYNC_VIDEO_INFORMATION, (data)=>{
+      let videoId = getVideoId(data.mediaContentUrl);
       player.loadVideoById({
-        mediaContentUrl: data.mediaContentUrl,
+        videoId: videoId,
         startSeconds: data.currentTime
       });
     });
@@ -94,6 +94,18 @@ function Video(props) {
 
   }
   // helper functions
+  const getVideoId=(link)=>{
+    let ID = '';
+    link = link.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    if (link[2] !== undefined){
+      ID = link[2].split(/[^0-9a-z_-]/i);
+      ID = ID[0];
+    }
+    else {
+      ID = link;
+    }
+    return ID
+  }
 
   const syncTime=(currentTime) =>{
     if (player.getCurrentTime() < currentTime - 0.5 || player.getCurrentTime() > currentTime + 0.5) {
@@ -104,10 +116,13 @@ function Video(props) {
 
 
   // handler functions
-  const handleNewLink=()=>{
-    let link = document.getElementById("query").value;
-    setLinkID(link);
+  const handleNewLink=(e)=>{
     socket.emit(NEW_VIDEO, linkID);
+
+  }
+
+  const handleLinkChange = (e)=>{
+    setLinkID(document.getElementById('query').value);
   }
 
   const handleReady = (e)=>{
@@ -177,6 +192,7 @@ function Video(props) {
                 placeholder="Youtube Link ..."
                 inputProps={{ 'aria-label': 'Youtube Link ...' }}
                 onSubmit={handleNewLink}
+                onChange={handleLinkChange}
             />
             <IconButton className={classes.iconButton} aria-label="search" onClick={handleNewLink}>
               <Search color="action"/>
